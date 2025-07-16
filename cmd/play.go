@@ -27,20 +27,3 @@ var playCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(playCmd)
 }
-
-/*
-func searchAndPlay(query string) {
-	cmd := exec.Command("yt-dlp", "--default-search", "ytsearch", "-f", "bestaudio", "--no-playlist", "-o", "-", query)
-	mpv := exec.Command("mpv", "--no-video", "-")
-
-	// Connect output of yt-dlp to mpv
-	stdout, _ := cmd.StdoutPipe()
-	mpv.Stdin = stdout
-
-	cmd.Start()
-	mpv.Start()
-
-	cmd.Wait()
-	mpv.Wait()
-}
-*/
