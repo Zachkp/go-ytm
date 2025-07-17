@@ -1,4 +1,4 @@
-# ~~TLDR~~
+# TLDR
 > VERY MUCH SO WORK IN PROGRESS
 
 
