@@ -5,6 +5,7 @@ package tui
 
 import (
 	"fmt"
+	"go-ytm/player"
 	"os"
 	"strings"
 
@@ -22,8 +23,8 @@ var (
 	helpStyle           = blurredStyle
 	cursorModeHelpStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("244"))
 
-	focusedButton = focusedStyle.Render("[ Submit ]")
-	blurredButton = fmt.Sprintf("[ %s ]", blurredStyle.Render("Submit"))
+	focusedButton = focusedStyle.Render("[ SEARCH ]")
+	blurredButton = fmt.Sprintf("[ %s ]", blurredStyle.Render("SEARCH"))
 )
 
 type model struct {
@@ -34,7 +35,7 @@ type model struct {
 
 func initialModel() model {
 	m := model{
-		inputs: make([]textinput.Model, 3),
+		inputs: make([]textinput.Model, 2),
 	}
 
 	var t textinput.Model
@@ -42,22 +43,18 @@ func initialModel() model {
 		t = textinput.New()
 		t.Cursor.Style = cursorStyle
 		t.CharLimit = 32
+		t.Width = 20
 
 		switch i {
 		case 0:
-			t.Placeholder = "Nickname"
+			t.Placeholder = "Song"
 			t.Focus()
 			t.PromptStyle = focusedStyle
 			t.TextStyle = focusedStyle
 		case 1:
-			t.Placeholder = "Email"
+			t.Placeholder = "Band"
 			t.CharLimit = 64
-		case 2:
-			t.Placeholder = "Password"
-			t.EchoMode = textinput.EchoPassword
-			t.EchoCharacter = '•'
 		}
-
 		m.inputs[i] = t
 	}
 
@@ -92,8 +89,15 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			s := msg.String()
 
 			// Did the user press enter while the submit button was focused?
-			// If so, exit.
+			// If so play the song
 			if s == "enter" && m.focusIndex == len(m.inputs) {
+				// handle the inputs
+				song := m.inputs[0].Value()
+				band := m.inputs[1].Value()
+				query := song + " " + band
+
+				player.StreamSong(query)
+
 				return m, tea.Quit
 			}
 
@@ -163,14 +167,15 @@ func (m model) View() string {
 	}
 	fmt.Fprintf(&b, "\n\n%s\n\n", *button)
 
-	b.WriteString(helpStyle.Render("cursor mode is "))
-	b.WriteString(cursorModeHelpStyle.Render(m.cursorMode.String()))
-	b.WriteString(helpStyle.Render(" (ctrl+r to change style)"))
+	// b.WriteString(helpStyle.Render("cursor mode is "))
+	// b.WriteString(cursorModeHelpStyle.Render(m.cursorMode.String()))
+	// b.WriteString(helpStyle.Render(" (ctrl+r to change style)"))
 
 	return b.String()
 }
 
-func DoThing() {
+func PlaySong() {
+	fmt.Printf("test called do thing")
 	if _, err := tea.NewProgram(initialModel()).Run(); err != nil {
 		fmt.Printf("could not start program: %s\n", err)
 		os.Exit(1)

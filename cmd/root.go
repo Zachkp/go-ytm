@@ -4,9 +4,8 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"go-ytm/player"
+	"go-ytm/internal/tui"
 	"os"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -18,13 +17,8 @@ var rootCmd = &cobra.Command{
 	Args:  cobra.ArbitraryArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
-			_ = cmd.Help()
-			return
+			tui.PlaySong()
 		}
-
-		query := strings.Join(args, " ")
-		// TODO: UTILIZE BUBBLETEA AND LIPGLOSS HERE
-		player.StreamSong(query)
 	},
 }
 
