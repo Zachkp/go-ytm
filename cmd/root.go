@@ -38,6 +38,5 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.AddCommand(playCmd)
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
