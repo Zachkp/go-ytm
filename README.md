@@ -1,7 +1,3 @@
-# TLDR
-> VERY MUCH SO WORK IN PROGRESS
-
-
 # 🎧 go-ytm
 
 > A blazing-fast terminal-based YouTube Music streamer written in Go.  
