@@ -1,3 +1,5 @@
+![](go-ytm.gif)
+
 # 🎧 go-ytm
 
 > A blazing-fast terminal-based YouTube Music streamer written in Go.  
